@@ -1,7 +1,15 @@
+package shutDown;
+
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
+import java.util.concurrent.*;
+
 //home-make java Demo
-//java编程思想
-//银行仿真系统
-//页码：737~740
+//java缂栫▼鎬濇兂
+//閾惰浠跨湡绯荤粺
+//椤电爜锛�37~740
 
 class Customer{
 	private final int serviceTime;
@@ -12,16 +20,16 @@ class Customer{
 		return serviceTime;
 	}
 	public String toString(){
-		return "[" + serviceTime + "]"
+		return "[" + serviceTime + "]";
 	}
 }
 
 
-class CustomerLine extends ArrayBlockintQueue<Customer>{
+class CustomerLine extends ArrayBlockingQueue<Customer>{
 	public CustomerLine(int maxLineSize){
 		super(maxLineSize);
 	}
-	public Stirng toString(){
+	public String toString(){
 		if(this.size()==0){
 			return "[Empty]";
 		}
@@ -68,18 +76,18 @@ class Teller implements Runnable, Comparable<Teller>{
 		try{
 			while(!Thread.interrupted()){
 				Customer customer = customers.take();
-				TimeUnit.MILLISECONDS.sleep(customer.getServiceTime);
+				TimeUnit.MILLISECONDS.sleep(customer.getServiceTime());
 
 				synchronized(this){
 					customersServed++;
-					whiel(!servingCustomerLine)
+					while(!servingCustomerLine)
 						wait();
 				}
 			}
 		}catch(Exception e){
 			System.out.println(this + " interrupted");
 		}
-		System.out.println(this + "terminating")
+		System.out.println(this + "terminating");
 	}
 
 	public synchronized void doSomethingElse(){
@@ -193,6 +201,6 @@ public class BankTellerSimulation{
 			System.out.println("Press 'Enter' to quit");
 			System.in.read();
 		}
-		exec.showdownNow();
+		exec.shutdownNow();
 	}
 }
